@@ -1,0 +1,3 @@
+[django-server] 
+
+localhost ansible_connection=local

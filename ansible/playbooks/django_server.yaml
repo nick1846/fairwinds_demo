@@ -6,6 +6,7 @@
   tasks:
     - name: Create app
       shell: docker run --rm --user "$(id -u):$(id -g)" -v /home/ec2-user:/usr/src/app -w /usr/src/app django django-admin.py startproject mysite
+      
 
     - name: Configure app
       shell: |

@@ -42,6 +42,7 @@ module "my_sg" {
 }
 
 resource "aws_instance" "my_ec2" {
+
   ami                    = data.aws_ami.my_ami.id
   instance_type          = var.ec2_type
   key_name               = var.my_key_name
@@ -50,7 +51,20 @@ resource "aws_instance" "my_ec2" {
   user_data              = file("userdata.sh")
   tags = {
     Name = "django-server"
-  }  
+  }
+
+  connection {
+    host        = element(aws_instance.my_ec2.*.public_ip, 0)
+    type        = "ssh"
+    user        = "ec2-user"
+    private_key = tls_private_key.key.private_key_pem
+  }
+
+  provisioner "file" {
+    source      = "ansible"
+    destination = "/home/ec2-user"
+  }
+
 }
 
 data "aws_ami" "my_ami" {
@@ -67,26 +81,3 @@ output "django_server_eip" {
   value       = aws_eip.django_server.*.public_ip
 }
 
-resource "null_resource" "provision_django" {
-
-  connection {
-    host        = element(aws_instance.my_ec2.*.public_ip, 0)
-    type        = "ssh"
-    user        = "ec2-user"
-    private_key = tls_private_key.key.private_key_pem
-
-  }  
-
-  provisioner "file" {
-    source      = "ansible/"
-    destination = "/home/ec2-user"
-  }
-
-  provisioner "remote-exec" {
-
-    inline = [
-      "ansible-playbook /home/ec2-user/playbooks/django_server.yaml",
-    ]
-     on_failure = continue
-  }
-}

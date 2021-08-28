@@ -13,8 +13,6 @@ variable "aws_region" {
 variable "my_key_name" {
 }
 
-variable "my_publickey" {
-}
 
 #my-eip-variables
 

@@ -9,6 +9,8 @@ sudo yum install -y  python3-pip
 python3 -m pip install --user --upgrade pip 
 python3 -m pip install ansible
 
+ansible-playbook /home/ec2-user/ansible/playbooks/django_server.yaml
+
 
 
 

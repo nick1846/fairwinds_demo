@@ -14,12 +14,6 @@ resource "aws_key_pair" "aws_key" {
   public_key = tls_private_key.key.public_key_openssh
 }
 
-
-# resource "aws_key_pair" "ec2-user-public" {
-#   key_name   = var.my_key_name
-#   public_key = var.my_publickey
-# }
-
 resource "aws_eip" "django_server" {
   count    = var.eip_count
   vpc      = var.vpc_bool
@@ -36,7 +30,6 @@ module "my_vpc" {
 
 }
 
-
 module "my_sg" {
   source              = "terraform-aws-modules/security-group/aws"
   name                = var.my_sg_name
@@ -48,19 +41,6 @@ module "my_sg" {
   egress_rules        = var.sg_egress_rules
 }
 
-# module "my_ec2" {
-#   source                 = "terraform-aws-modules/ec2-instance/aws"
-#   name                   = var.my_ec2_name
-#   key_name               = var.my_key_name
-#   count                  = var.ec2_count
-#   ami                    = data.aws_ami.my_ami.id
-#   instance_type          = var.ec2_type
-#   vpc_security_group_ids = [module.my_sg.security_group_id]
-#   subnet_id              = element(module.my_vpc.public_subnets, 0)
-#   user_data              = file("userdata.sh")
-#   tags                   = var.ec2_tags
-# }
-
 resource "aws_instance" "my_ec2" {
   ami                    = data.aws_ami.my_ami.id
   instance_type          = var.ec2_type
@@ -70,29 +50,7 @@ resource "aws_instance" "my_ec2" {
   user_data              = file("userdata.sh")
   tags = {
     Name = "django-server"
-  }
-
-  # connection {
-  #   host        = element(aws_instance.my_ec2.*.public_ip, 0)
-  #   type        = "ssh"
-  #   user        = "ec2-user"
-  #   private_key = tls_private_key.key.private_key_pem
-  #   timeout     = "60s"
-  # }
-
-  # provisioner "file" {
-  #   source      = "ansible/"
-  #   destination = "/home/ec2-user"
-  # }
-
-  # provisioner "remote-exec" {
-
-  #   inline = [
-
-  #     "ansible-playbook /home/ec2-user/playbooks/django_server.yaml",
-  #   ]
-  #   on_failure = continue
-  # }
+  }  
 }
 
 data "aws_ami" "my_ami" {
@@ -117,14 +75,7 @@ resource "null_resource" "provision_django" {
     user        = "ec2-user"
     private_key = tls_private_key.key.private_key_pem
 
-  }
-
-  # provisioner "remote-exec" {
-
-  #   inline = [
-  #     "mkdir /home/ec2-user/playbooks",
-  #   ]
-  # }
+  }  
 
   provisioner "file" {
     source      = "ansible/"
@@ -136,7 +87,6 @@ resource "null_resource" "provision_django" {
     inline = [
       "ansible-playbook /home/ec2-user/playbooks/django_server.yaml",
     ]
+     on_failure = continue
   }
-
-
 }

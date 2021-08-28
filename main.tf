@@ -49,9 +49,7 @@ resource "aws_instance" "my_ec2" {
   subnet_id              = element(module.my_vpc.public_subnets, 0)
   vpc_security_group_ids = [module.my_sg.security_group_id]
   user_data              = file("userdata.sh")
-  tags = {
-    Name = "django-server"
-  }
+  tags                   = var.ec2_tags
 
   connection {
     host        = element(aws_instance.my_ec2.*.public_ip, 0)
@@ -69,11 +67,12 @@ resource "aws_instance" "my_ec2" {
 
 data "aws_ami" "my_ami" {
   most_recent = var.most_recent_bool
+  owners      = var.ami_owner
   filter {
     name   = var.ami_tag_type
     values = var.ami_value
   }
-  owners = var.ami_owner
+
 }
 
 output "django_server_eip" {

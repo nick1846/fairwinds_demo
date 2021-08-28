@@ -1,0 +1,31 @@
+---
+- name: Install Django server
+  hosts: localhost
+  connection: local
+  become: yes
+  tasks:
+    - name: Create app
+      shell: docker run --rm --user "$(id -u):$(id -g)" -v /home/ec2-user:/usr/src/app -w /usr/src/app django django-admin.py startproject mysite
+
+    - name: Configure app
+      shell: |
+        echo 'ALLOWED_HOSTS = ["*"]' >> /home/ec2-user/mysite/mysite/settings.py
+        echo "Django==3.2" > /home/ec2-user/mysite/requirements.txt
+
+    - name: Dockerfile
+      shell: |
+        cat <<EOF > /home/ec2-user/mysite/Dockerfile
+        FROM python:3.9.5-slim
+        ENV PYTHONUNBUFFERED 1
+        RUN mkdir /code
+        WORKDIR /code
+        COPY requirements.txt /code/
+        RUN pip install --user -r requirements.txt
+        COPY . /code/
+        CMD python manage.py runserver 0.0.0.0:8000
+        EOF
+    - name: Build image
+      shell: "docker build -t my-django-image /home/ec2-user/mysite/."
+
+    - name: Run django server
+      shell: "docker run --name django-app -p 80:8000 -d my-django-image"

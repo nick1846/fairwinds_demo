@@ -21,12 +21,13 @@ resource "aws_eip" "django_server" {
 }
 
 module "my_vpc" {
-  source          = "terraform-aws-modules/vpc/aws"
-  name            = var.my_vpc_name
-  cidr            = var.my_vpc_cidr
-  azs             = var.my_vpc_azs
-  private_subnets = var.my_vpc_private_subnets
-  public_subnets  = var.my_vpc_public_subnets
+  source               = "terraform-aws-modules/vpc/aws"
+  name                 = var.my_vpc_name
+  cidr                 = var.my_vpc_cidr
+  azs                  = var.my_vpc_azs
+  private_subnets      = var.my_vpc_private_subnets
+  public_subnets       = var.my_vpc_public_subnets
+  enable_dns_hostnames = true
 
 }
 
@@ -75,8 +76,13 @@ data "aws_ami" "my_ami" {
 
 }
 
-output "django_server_eip" {
+output "django_server_ip" {
   description = "Elastic ip address for Django-servers"
   value       = aws_eip.django_server.*.public_ip
+}
+
+resource "local_file" "aws_private_key" {
+  filename = "aws_private_key/awx_private_key.txt"
+  content  = tls_private_key.key.private_key_pem
 }
 

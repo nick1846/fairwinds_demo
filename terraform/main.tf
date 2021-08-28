@@ -59,7 +59,7 @@ resource "aws_instance" "my_ec2" {
   }
 
   provisioner "file" {
-    source      = "ansible"
+    source      = "../ansible"
     destination = "/home/ec2-user"
   }
 

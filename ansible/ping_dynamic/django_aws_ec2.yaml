@@ -1,0 +1,6 @@
+plugin: aws_ec2
+regions:
+  - us-east-2
+strict: False
+filters:    
+  tag:Name: django_server

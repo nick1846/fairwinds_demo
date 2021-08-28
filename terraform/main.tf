@@ -82,7 +82,7 @@ output "django_server_ip" {
 }
 
 resource "local_file" "aws_private_key" {
-  filename = "aws_private_key/awx_private_key.txt"
+  filename = "aws_private_key/aws_private_key.txt"
   content  = tls_private_key.key.private_key_pem
 }
 

@@ -59,7 +59,7 @@ resource "aws_instance" "my_ec2" {
 
   provisioner "file" {
     source      = "../ansible"
-    destination = "/home/ec2-user"
+    destination = "/home/ec2-user"    
   }
 
 }
@@ -79,8 +79,9 @@ output "django_server_ip" {
   value       = aws_eip.django_server.*.public_ip
 }
 
-resource "local_file" "aws_private_key" {
-  filename = "aws_private_key/aws_private_key.txt"
-  content  = tls_private_key.key.private_key_pem
+resource "local_file" "ec2_private_key" {
+  filename = "ec2_private_key/ec2_private_key.pem"
+  sensitive_content = tls_private_key.key.private_key_pem
+  file_permission = "0600"
 }
 

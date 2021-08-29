@@ -1,6 +1,6 @@
 #  Quickstart Guide 
 
-This is my simple dockerized django server, which you can run in AWS via Terraform.
+  This is simple dockerized django server, which you can run in AWS via Terraform.
   Prerequisites installed on your local machine:
     - Terraform
     - Ansible

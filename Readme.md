@@ -19,6 +19,7 @@
        $ bash deploy_django.sh
  
   Use IP from output in the console to see django app in the browser. Wait until instance up and running (around 5 minutes, ansible in action).
+  
   To ping the server via Ansible run: 
   
        $ bash ping_django_via_ansible.sh

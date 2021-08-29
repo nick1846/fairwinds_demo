@@ -26,5 +26,5 @@ This is my simple dockerized django server, which you can run in AWS via Terrafo
   
       $ bash destroy_django.sh
      
-      Good luck!
+  Good luck!
 

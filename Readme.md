@@ -2,9 +2,10 @@
 
   This is simple dockerized django server, which you can run in AWS via Terraform.
   Prerequisites installed on your local machine:
-    - Terraform
-    - Ansible
-    - The aws_ec2 dynamic inventory plugin requires boto3 and botocore.
+  
+      - Terraform
+      - Ansible
+      - The aws_ec2 dynamic inventory plugin requires boto3 and botocore.
 
   Before you start set desired AWS region (and azs) in templates and AWS credentials (either in templates or shell commands):
   

@@ -1,4 +1,4 @@
-aws_region = "us-east-2"
+aws_region = "us-west-1"
 
 #my-key-values
 my_key_name = "ec2-user-publickey"
@@ -28,7 +28,7 @@ sg_egress_rules  = ["all-all"]
 
 my_ec2_name = "django_server"
 ec2_count   = 1
-ec2_type    = "t2.micro"
+ec2_type    = "t2.medium"
 ec2_tags    = { Name = "django_server" }
 
 

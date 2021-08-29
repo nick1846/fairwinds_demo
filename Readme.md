@@ -12,16 +12,18 @@ This is my simple dockerized django server, which you can run in AWS via Terrafo
       $ export AWS_SECRET_ACCESS_KEY="asecretkey"
 
   To deploy django server run commands locally:
+  
       $ git clone https://github.com/nick1846/fairwinds_demo.git
       $ cd fairwinds_demo/scripts
       $ bash deploy_django.sh
  
   Use IP from output in the console to see django app in the browser. Wait until instance up and running (around 5 mimutes, ansible in action)
-
   To ping the server via Ansible run: 
+  
       $ bash ping_django_via_ansible.sh
      
   Don't forget destroy everything by running:
+  
       $ bash destroy_django.sh
      
       Good luck!

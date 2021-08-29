@@ -11,7 +11,7 @@ vpc_bool  = "true"
 
 my_vpc_name            = "django-vpc"
 my_vpc_cidr            = "10.0.0.0/16"
-my_vpc_azs             = ["us-east-2a", "us-east-2b"]
+my_vpc_azs             = ["us-west-1a", "us-west-1b"]
 my_vpc_private_subnets = ["10.0.1.0/24"]
 my_vpc_public_subnets  = ["10.0.100.0/24"]
 

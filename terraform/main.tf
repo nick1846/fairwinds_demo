@@ -6,11 +6,13 @@ resource "aws_key_pair" "aws_key" {
   key_name   = var.my_key_name
   public_key = file("${path.module}/ec2_private_key/mykey_rsa.pub")
 }
+
 resource "aws_eip" "django_server" {
   count    = var.eip_count
   vpc      = var.vpc_bool
   instance = element(aws_instance.my_ec2.*.id, count.index)
 }
+
 module "my_vpc" {
   source               = "terraform-aws-modules/vpc/aws"
   name                 = var.my_vpc_name
@@ -20,6 +22,7 @@ module "my_vpc" {
   public_subnets       = var.my_vpc_public_subnets
   enable_dns_hostnames = true
 }
+
 module "my_sg" {
   source              = "terraform-aws-modules/security-group/aws"
   name                = var.my_sg_name

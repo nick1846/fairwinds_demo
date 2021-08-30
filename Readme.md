@@ -22,7 +22,11 @@
   
   To ping the server via Ansible run: 
   
-       $ bash ping_django_via_ansible.sh
+       $ bash ping_django.sh
+
+  To create linux users on the Django server run:
+
+       $ bash create_users_on_django.sh
      
   Don't forget destroy everything by running:
   

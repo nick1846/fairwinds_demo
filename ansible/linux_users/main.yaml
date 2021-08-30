@@ -1,0 +1,7 @@
+---
+- hosts: all 
+  become: True
+  remote_user: ec2-user
+  roles:
+    - linux-users 
+    

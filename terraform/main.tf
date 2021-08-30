@@ -4,7 +4,7 @@ provider "aws" {
 
 resource "aws_key_pair" "aws_key" {
   key_name   = var.my_key_name
-  public_key = file("${path.module}/ec2_private_key/mykey_rsa.pub")
+  public_key = file("${path.module}/ec2_keys/mykey_rsa.pub")
 }
 
 resource "aws_eip" "django_server" {
@@ -47,7 +47,7 @@ resource "aws_instance" "my_ec2" {
     host        = element(aws_instance.my_ec2.*.public_ip, 0)
     type        = "ssh"
     user        = "ec2-user"
-    private_key = file("${path.module}/ec2_private_key/mykey_rsa")
+    private_key = file("${path.module}/ec2_keys/mykey_rsa")
   }
 
   provisioner "file" {
@@ -69,5 +69,9 @@ output "django_server_ip" {
   value       = aws_eip.django_server.*.public_ip
 }
 
+resource "local_file" "foo" {
+    count = "1"
+    content     =  aws_eip.django_server[count.index].public_ip
 
-
+    filename = "${path.module}/public_ip"
+}

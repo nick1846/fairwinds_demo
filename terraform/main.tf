@@ -2,22 +2,15 @@ provider "aws" {
   region = var.aws_region
 }
 
-resource "tls_private_key" "key" {
-  algorithm = "RSA"
-  rsa_bits  = 4096
-}
-
 resource "aws_key_pair" "aws_key" {
   key_name   = var.my_key_name
-  public_key = tls_private_key.key.public_key_openssh
+  public_key = file("${path.module}/ec2_private_key/mykey_rsa.pub")
 }
-
 resource "aws_eip" "django_server" {
   count    = var.eip_count
   vpc      = var.vpc_bool
   instance = element(aws_instance.my_ec2.*.id, count.index)
 }
-
 module "my_vpc" {
   source               = "terraform-aws-modules/vpc/aws"
   name                 = var.my_vpc_name
@@ -26,9 +19,7 @@ module "my_vpc" {
   private_subnets      = var.my_vpc_private_subnets
   public_subnets       = var.my_vpc_public_subnets
   enable_dns_hostnames = true
-
 }
-
 module "my_sg" {
   source              = "terraform-aws-modules/security-group/aws"
   name                = var.my_sg_name
@@ -41,7 +32,6 @@ module "my_sg" {
 }
 
 resource "aws_instance" "my_ec2" {
-
   ami                    = data.aws_ami.my_ami.id
   instance_type          = var.ec2_type
   key_name               = var.my_key_name
@@ -54,16 +44,14 @@ resource "aws_instance" "my_ec2" {
     host        = element(aws_instance.my_ec2.*.public_ip, 0)
     type        = "ssh"
     user        = "ec2-user"
-    private_key = tls_private_key.key.private_key_pem
+    private_key = file("${path.module}/ec2_private_key/mykey_rsa")
   }
 
   provisioner "file" {
     source      = "../ansible"
     destination = "/home/ec2-user"    
   }
-
 }
-
 data "aws_ami" "my_ami" {
   most_recent = var.most_recent_bool
   owners      = var.ami_owner
@@ -71,7 +59,6 @@ data "aws_ami" "my_ami" {
     name   = var.ami_tag_type
     values = var.ami_value
   }
-
 }
 
 output "django_server_ip" {
@@ -79,9 +66,5 @@ output "django_server_ip" {
   value       = aws_eip.django_server.*.public_ip
 }
 
-resource "local_file" "ec2_private_key" {
-  filename = "ec2_private_key/ec2_private_key.pem"
-  sensitive_content = tls_private_key.key.private_key_pem
-  file_permission = "0600"
-}
+
 

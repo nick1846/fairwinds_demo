@@ -1,10 +1,3 @@
-#my-aws-credentials-variables
-# variable "aws_access_key" {
-# }
-
-# variable "aws_secret_key" {
-# }
-
 variable "aws_region" {
 }
 
@@ -38,8 +31,6 @@ variable "my_vpc_private_subnets" {
 
 variable "my_vpc_public_subnets" {
 }
-
-
 
 #my-sg-variables
 

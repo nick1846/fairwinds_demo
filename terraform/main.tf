@@ -20,7 +20,7 @@ module "my_vpc" {
   azs                  = var.my_vpc_azs
   private_subnets      = var.my_vpc_private_subnets
   public_subnets       = var.my_vpc_public_subnets
-  enable_dns_hostnames = true
+  enable_dns_hostnames = var.enable_dns_hostnames_bool
 }
 
 module "my_sg" {
@@ -52,7 +52,7 @@ resource "aws_instance" "my_ec2" {
 
   provisioner "file" {
     source      = "../ansible"
-    destination = "/home/ec2-user"    
+    destination = "/home/ec2-user"
   }
 }
 data "aws_ami" "my_ami" {

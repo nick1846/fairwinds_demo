@@ -9,11 +9,12 @@ vpc_bool  = "true"
 
 #my-vpc-values
 
-my_vpc_name            = "django-vpc"
-my_vpc_cidr            = "10.0.0.0/16"
-my_vpc_azs             = ["us-west-1b", "us-west-1c"]
-my_vpc_private_subnets = ["10.0.1.0/24"]
-my_vpc_public_subnets  = ["10.0.100.0/24"]
+my_vpc_name               = "django-vpc"
+my_vpc_cidr               = "10.0.0.0/16"
+my_vpc_azs                = ["us-west-1b", "us-west-1c"]
+my_vpc_private_subnets    = ["10.0.1.0/24"]
+my_vpc_public_subnets     = ["10.0.100.0/24"]
+enable_dns_hostnames_bool = "true"
 
 #my-sg-values
 

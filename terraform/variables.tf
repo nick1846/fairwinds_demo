@@ -32,6 +32,9 @@ variable "my_vpc_private_subnets" {
 variable "my_vpc_public_subnets" {
 }
 
+variable "enable_dns_hostnames_bool" {
+}
+
 #my-sg-variables
 
 variable "my_sg_name" {

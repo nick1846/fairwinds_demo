@@ -1,5 +1,4 @@
----
-  
+--- 
 - name: Install Django server
   hosts: localhost
   connection: local

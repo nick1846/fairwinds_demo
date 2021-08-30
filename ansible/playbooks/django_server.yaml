@@ -20,7 +20,6 @@
         echo "Django==3.2" > /home/ec2-user/mysite/requirements.txt
       when: not result.stat.exists
 
-
     - name: Dockerfile
       shell: |
         cat <<EOF > /home/ec2-user/mysite/Dockerfile

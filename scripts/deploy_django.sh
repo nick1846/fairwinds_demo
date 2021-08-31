@@ -8,7 +8,8 @@ else
     yes "n" | ssh-keygen -m pem -N "" -f ../terraform/ec2_keys/mykey_rsa
 fi
 
-cp -f ../terraform/ec2_keys/mykey_rsa.pub ../ansible/linux_users/files/mykey_rsa.pub
+mkdir ../ansible/linux_users/files
+cp -f ../terraform/ec2_keys/mykey_rsa.pub ../ansible/linux_users/files
 
 (cd ../terraform/; terraform init)
 (cd ../terraform/; terraform apply -auto-approve -var-file=values.tfvars)

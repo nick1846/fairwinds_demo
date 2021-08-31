@@ -69,7 +69,7 @@ output "django_server_ip" {
   value       = aws_eip.django_server.*.public_ip
 }
 
-resource "local_file" "foo" {
+resource "local_file" "public_ip" {
     count = "1"
     content     =  aws_eip.django_server[count.index].public_ip
 

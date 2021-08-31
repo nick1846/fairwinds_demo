@@ -4,7 +4,7 @@ MY_IP=$(cat ../terraform/public_ip)
 
 if grep -Fxq "$MY_IP" ../ansible/linux_users/hosts
 then
-    echo "exists"
+    echo "ok"
 else
     cat ../terraform/public_ip > ../ansible/linux_users/hosts
     cat <(echo '[django_server]') ../terraform/public_ip > ../ansible/linux_users/hosts
